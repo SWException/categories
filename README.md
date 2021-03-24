@@ -1,3 +1,3 @@
-# Emporio Lambda - products
+# Emporio Lambda - categories
 
-SWException
+Microservice to manaage EmporioLambda categories
