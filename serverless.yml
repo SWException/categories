@@ -50,21 +50,21 @@ provider:
 
 functions:
   getCategory:
-    handler: "src/categories/getCategory.HANDLER"
+    handler: "src/getCategory.HANDLER"
     events:
       - http:
           path: /categories/{id}
           method: GET
           cors: true
   createCategory:
-    handler: "src/categories/createCategory.HANDLER"
+    handler: "src/createCategory.HANDLER"
     events:
       - http:
           path: /categories
           method: POST
           cors: true  
   updateCategory:
-    handler: "src/categories/updateCategory.HANDLER"
+    handler: "src/updateCategory.HANDLER"
     events:
       - http:
           path: /categories
