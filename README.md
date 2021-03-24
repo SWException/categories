@@ -1,1 +1,3 @@
-# categories
+# Emporio Lambda - products
+
+SWException
