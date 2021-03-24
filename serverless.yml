@@ -1,8 +1,6 @@
-service: eml-be
+service: categories
 
 frameworkVersion: "2"
-# variablesResolutionMode: 20210219
-
 useDotenv: true
 
 plugins:
@@ -21,7 +19,6 @@ custom:
   serverless-offline:
     httpPort: 4000
     ignoreJWTSignature: true
-  imageUploadBucket: imagebucket-dev
 
 
 provider:
@@ -33,16 +30,14 @@ provider:
   stage: ${opt:stage, 'dev'}
 
   apiGateway:
-    minimumCompressionSize: 1024
-    shouldStartNameWithService: true
+    restApiId: 95kq9eggu9
+    restApiRootResourceId: zsd84g8moe
 
   environment:
     AWS_NODEJS_CONNECTION_REUSE_ENABLED: "1"
     DOMAIN_SUFFIX: eml-be
     CALLBACK_URL: http://localhost:3000
     AWS_USER_POOL_ID: !Ref CognitoUserPool
-    STRIPE_TOKEN: ${env:STRIPE_TOKEN}
-    PRODUCT_IMG_BUCKET: ${self:custom.imageUploadBucket}
     REGION: ${self:provider.region}
 
   iam:
@@ -51,89 +46,9 @@ provider:
         - Effect: Allow
           Action:
             - dynamodb:*
-            - s3:*
           Resource: "*"
 
 functions:
-  getCart:
-    handler: "src/cart/getCart.HANDLER"
-    events:
-      - http:
-          path: /cart
-          method: GET
-          cors: true
-  postCart:
-    handler: "src/cart/postCart.HANDLER"
-    events:
-      - http:
-          path: /cart
-          method: POST
-          cors: true
-  getProducts:
-    handler: "src/products/getProducts.HANDLER"
-    events:
-      - http:
-          path: /products/
-          method: GET
-          cors: true
-  getProduct:
-    handler: "src/products/getProduct.HANDLER"
-    events:
-      - http:
-          path: /products/{id}
-          method: GET
-          cors: true
-  updateProduct:
-    handler: "src/products/updateProduct.HANDLER"
-    events:
-      - http:
-          path: /products
-          method: PATCH
-          cors: true
-  createProduct:
-    handler: "src/products/createProduct.HANDLER"
-    events:
-      - http:
-          path: /products
-          method: POST
-          cors: true
-  createCharge:
-    handler: "src/checkout/createCharge.HANDLER"
-    events:
-      - http:
-          path: /createCharge
-          method: POST
-          cors:
-            origin: "*"
-            headers:
-              - Content-Type
-              - X-Amz-Date
-              - Authorization
-              - X-Api-Key
-              - X-Amz-Security-Token
-              - X-Amz-User-Agent
-            allowCredentials: false
-  addresses:
-    handler: "src/addresses/getAddresses.HANDLER"
-    events:
-      - http:
-          path: /addresses
-          method: GET
-          cors: true
-  customers:
-    handler: "src/customers/getCustomers.HANDLER"
-    events:
-      - http:
-          path: /customers
-          method: GET
-          cors: true
-  getCategories:
-    handler: "src/categories/getCategories.HANDLER"
-    events:
-      - http:
-          path: /categories/
-          method: GET
-          cors: true
   getCategory:
     handler: "src/categories/getCategory.HANDLER"
     events:
@@ -157,70 +72,8 @@ functions:
           cors: true      
 
 resources:
-  Resources:
-    #bucket for products imgs management
-    BucketImage:
-      Type: AWS::S3::Bucket
-      Properties:
-        BucketName: imagebucket-${opt:stage, self:provider.stage}
-        AccessControl: PublicRead #!!!public!!!
-    
+  Resources:    
     #dynamodb tables
-    CartsTable:
-      Type: AWS::DynamoDB::Table
-      Properties:
-        TableName: carts
-        AttributeDefinitions:
-          - AttributeName: id
-            AttributeType: "S"
-        KeySchema:
-          - AttributeName: id
-            KeyType: HASH
-        BillingMode: PAY_PER_REQUEST
-    AddressesTable:
-      Type: AWS::DynamoDB::Table
-      Properties:
-        TableName: addresses
-        AttributeDefinitions:
-          - AttributeName: id
-            AttributeType: "S"
-        KeySchema:
-          - AttributeName: id
-            KeyType: HASH
-        BillingMode: PAY_PER_REQUEST
-    ProductsTable:
-      Type: AWS::DynamoDB::Table
-      Properties:
-        TableName: products
-        AttributeDefinitions:
-          - AttributeName: category
-            AttributeType: "S"
-          - AttributeName: id
-            AttributeType: "S"
-          - AttributeName: price
-            AttributeType: "N"
-        KeySchema:
-          - AttributeName: category
-            KeyType: HASH
-          - AttributeName: id
-            KeyType: RANGE
-        LocalSecondaryIndexes:
-          - IndexName: categoryPrice
-            KeySchema:
-              - AttributeName: category
-                KeyType: HASH
-              - AttributeName: price
-                KeyType: RANGE
-            Projection: 
-              ProjectionType: "ALL"
-        GlobalSecondaryIndexes:
-        - IndexName: id-index
-          KeySchema:
-            - AttributeName: id
-              KeyType: HASH
-          Projection:
-            ProjectionType: ALL
-        BillingMode: PAY_PER_REQUEST
     CategoriesTable:
       Type: AWS::DynamoDB::Table
       Properties:
@@ -232,126 +85,3 @@ resources:
           - AttributeName: id
             KeyType: HASH
         BillingMode: PAY_PER_REQUEST
- 
-    OrderTable:
-      Type: AWS::DynamoDB::Table
-      Properties:
-        TableName: order
-        AttributeDefinitions:
-          - AttributeName: orderid
-            AttributeType: "S"
-          - AttributeName: userid
-            AttributeType: "S"
-          - AttributeName: timestamp
-            AttributeType: "S"
-          - AttributeName: status
-            AttributeType: "S"
-        KeySchema:
-          - AttributeName: userid
-            KeyType: HASH
-          - AttributeName: timestamp
-            KeyType: RANGE
-        GlobalSecondaryIndexes:
-          - IndexName: getStatus
-            KeySchema:
-              - AttributeName: status
-                KeyType: HASH
-              - AttributeName: timestamp
-                KeyType: RANGE
-            Projection:
-              ProjectionType: "ALL"
-              
-    CognitoUserPool:
-      Type: AWS::Cognito::UserPool
-      Properties:
-        UserPoolName: EML-user-pool-${opt:stage, self:provider.stage}
-        UsernameAttributes:
-          - email
-        AutoVerifiedAttributes:
-          - email
-        Policies:
-          PasswordPolicy:
-            MinimumLength: 8
-            RequireLowercase: false
-            RequireNumbers: false
-            RequireSymbols: false
-            RequireUppercase: false
-            # TemporaryPasswordValidityDays: 0
-        VerificationMessageTemplate:
-          DefaultEmailOption: CONFIRM_WITH_CODE # CONFIRM_WITH_CODE oppure CONFIRM_WITH_LINK
-          EmailSubject: "EmporioLambda - Codice di verifica"
-          EmailSubjectByLink: "EmporioLambda - Link di verifica"
-          EmailMessage: "Ecco il tuo codice di verifica: <b>{####}</b>"
-          EmailMessageByLink: "Clicca il seguente link per verificare l'email: {##CLICCA QUI##}"
-        AccountRecoverySetting:
-          RecoveryMechanisms:
-            - Name: verified_email
-              Priority: 1
-        DeviceConfiguration:
-          DeviceOnlyRememberedOnUserPrompt: false
-        Schema:
-          - Mutable: true
-            Required: true
-            Name: name
-          - Mutable: true
-            Required: true
-            Name: family_name
-          - Mutable: true
-            Required: true
-            Name: email
-          - Mutable: true
-            Required: false
-            Name: phone_number
-          - Mutable: true
-            Required: false
-            Name: picture
-          - Mutable: true
-            Required: false
-            Name: gender
-
-    CognitoUserPoolClient:
-      Type: AWS::Cognito::UserPoolClient
-      Properties:
-        ClientName: EML-user-pool-client-${opt:stage, self:provider.stage}
-        AllowedOAuthFlows:
-          - code
-          - implicit
-        AllowedOAuthFlowsUserPoolClient: true
-        AllowedOAuthScopes:
-          - phone
-          - email
-          - openid
-          - profile
-          - aws.cognito.signin.user.admin
-        UserPoolId:
-          Ref: CognitoUserPool
-        CallbackURLs:
-          - ${self:provider.environment.CALLBACK_URL}
-        DefaultRedirectURI: ${self:provider.environment.CALLBACK_URL}
-        ExplicitAuthFlows:
-          - ALLOW_CUSTOM_AUTH
-          - ALLOW_USER_SRP_AUTH
-          - ALLOW_REFRESH_TOKEN_AUTH
-        TokenValidityUnits:
-          AccessToken: hours
-          IdToken: hours
-          RefreshToken: days
-        AccessTokenValidity: 1 # default: 1 ora
-        IdTokenValidity: 1 # default: 1 ora
-        RefreshTokenValidity: 30 # default: 30 giorni
-
-    CognitoGroupClient:
-      Type: AWS::Cognito::UserPoolGroup
-      Properties:
-        Description: Client
-        GroupName: Client
-        UserPoolId:
-          Ref: CognitoUserPool
-
-    CognitoGroupAdmin:
-      Type: AWS::Cognito::UserPoolGroup
-      Properties:
-        Description: Venditori
-        GroupName: Admin
-        UserPoolId:
-          Ref: CognitoUserPool
