@@ -1,3 +1,3 @@
 # Emporio Lambda - categories
 
-Microservice to manaage EmporioLambda categories
+Microservice to manage EmporioLambda categories
