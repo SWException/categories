@@ -1,0 +1,100 @@
+get:
+  summary: ritorna la categoria con ID
+  description: Ritorna la categoria richiesta con ID passato via path param
+  tags:
+    - categories
+  parameters:
+    - in: path
+      name: id
+      schema:
+        type: string
+      required: true
+  operationId: getCategory
+  responses:
+    200:
+      description: "categoria con ID"
+      content:
+        application/json:
+          schema:
+            $ref: "../schemas/categories.json#/responseCategory"
+          example:
+            {
+              status: "success",
+              data:
+                  { id: "1", name: "games" },
+            }
+    400:
+      description: "categoria non trovata"
+      content:
+        application/json:
+          schema:
+            $ref: "../schemas/response.json#/response"
+          example: { status: "error", message: "categoria non trovata"}
+
+delete:
+  summary: Rimuove la categoria identificata dall'ID passato
+  description: Rimuove la categoria identificata dall'ID passato
+  tags:
+    - categories
+  operationId: removeCategory
+  parameters:
+    - in: header
+      name: Authorization
+      description: token JWT
+      schema:
+        type: string
+      required: true
+    - in: path
+      name: id
+      schema:
+        type: string
+      required: true
+    - in: query
+      name: force
+      schema:
+        type: boolean
+        
+  responses:
+    200:
+      description: "Categoria Rimossa"
+      content:
+        application/json:
+          schema:
+            $ref: "../schemas/response.json#/response"
+          example: { status: "success", message: "categoria rimossa" }
+    400:
+      description: "categoria non rimossa"
+      content:
+        application/json:
+          schema:
+            $ref: "../schemas/response.json#/response"
+          example: { status: "error", message: "categoria non rimossa"}
+
+patch:
+  summary: Aggiorna il nome della categoria
+  description: Aggiorna il nome della categoria associata all'ID passato
+  tags:
+    - categories
+  operationId: updateCategory
+  parameters:
+    - in: header
+      name: Authorization
+      description: token JWT
+      schema:
+        type: string
+      required: true
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          $ref: "../schemas/categories.json#/editCategory"
+        example: { id: "4", name: "lampadine" }
+  responses:
+    200:
+      description: "Categoria Aggiornata"
+      content:
+        application/json:
+          schema:
+            $ref: "../schemas/response.json#/response"
+          example: { status: "success", message: "categoria aggiornata" }

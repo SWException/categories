@@ -1,0 +1,52 @@
+{
+    "$id": "schemas/categories.json",
+    "category":{
+        "type": "object",
+        "properties": {
+            "id": { "type": "string"},
+            "name": { "type": "string" }
+        },
+        "required": ["name"]
+    },
+    "categories": {
+        "type": "array",
+        "items": { "$ref": "#/category" },
+        "uniqueItems": true
+    },
+    "insertCategory": {
+        "allOf" : [
+            { "$ref": "#/category" },
+            {
+                "required": ["name"]
+            }
+        ]
+    },
+    "editCategory": {
+        "allOf" : [
+            { "$ref": "#/category" },
+            {
+                "required": ["id", "name"]
+            }
+        ]
+    },
+    "responseCategories": {
+        "allOf" : [
+            { "$ref": "response.json#/response" },
+            {
+                "properties": {
+                    "data": { "$ref": "#/categories" }
+                }
+            }
+        ]
+    },
+    "responseCategory": {
+        "allOf" : [
+            { "$ref": "response.json#/response" },
+            {
+                "properties": {
+                    "data": { "$ref": "#/category" }
+                }
+            }
+        ]
+    }
+}
