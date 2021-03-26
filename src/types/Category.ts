@@ -1,6 +1,8 @@
 import { DYNAMO } from "src/utils/Dynamo";
 import { buildAjv } from 'src/utils/configAjv';
 import Ajv from "ajv"
+import { DocumentClient } from "aws-sdk/clients/dynamodb";
+
 const AJV: Ajv = buildAjv();
 
 export default class Category {
@@ -41,7 +43,7 @@ export default class Category {
     }
 
     public static async updateCategory (category_id: string, data: JSON): Promise<boolean> {
-        const VALID = AJV.validate("src/categories/schema.json#/editCategory", data);
+        const VALID = AJV.validate("../../schemas/categories.json#/editCategory", data);
         if (VALID) {
             const CATEGORY = await DYNAMO.update(this.CATEGORIES_TABLE, category_id, data);
             return CATEGORY;
@@ -51,7 +53,7 @@ export default class Category {
 
     // TODO: per ora ho fatto una cosa semplice,
     //poi è il caso di creare tanti Product e ritornare Array<Product>?
-    public static async buildAllCategories () {
+    public static async buildAllCategories (): Promise<DocumentClient.AttributeMap> {
         const CATEGORY = await DYNAMO.getScan(this.CATEGORIES_TABLE);
         return CATEGORY;
     }

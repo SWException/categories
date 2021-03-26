@@ -1,15 +1,15 @@
-import Category from "src/types/Category"
+import Category from "../src/types/Category"
 import { matchersWithOptions } from 'jest-json-schema';
 import { JSONSchema7 } from "json-schema";
+import { SCHEMAS, setFormats } from '../src/utils/configAjv';
 
-import { SCHEMAS, setFormats } from 'src/utils/configAjv';
 expect.extend(matchersWithOptions(SCHEMAS, (ajv) => setFormats(ajv)));
 
 const CATEGORY_SCHEMA: JSONSchema7 = {
-    $ref: "src/categories/schema.json#/category"
+    $ref: "../schemas/categories.json#/category"
 };
 const CATEGORIES_SCHEMA: JSONSchema7 = {
-    $ref: "src/categories/schema.json#/categories"
+    $ref: "../schemas/categories.json#/categories"
 };
 
 test('schema', () => {

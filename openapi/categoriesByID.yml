@@ -103,3 +103,11 @@ patch:
           schema:
             $ref: "../schemas/response.json#/response"
           example: { status: "success", message: "categoria aggiornata" }
+    400:
+      description: "categoria non aggiornata"
+      content:
+        application/json:
+          schema:
+            $ref: "../schemas/response.json#/response"
+          example: { status: "error", message: "categoria non aggiornata"}
+

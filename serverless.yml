@@ -55,6 +55,13 @@ functions:
           path: /categories/{id}
           method: GET
           cors: true
+  getCategories:
+    handler: "src/getCategories.HANDLER"
+    events:
+      - http:
+          path: /categories
+          method: GET
+          cors: true
   createCategory:
     handler: "src/createCategory.HANDLER"
     events:
