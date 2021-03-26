@@ -31,7 +31,7 @@ export default class Category {
 
     public static async createNewCategory (data: JSON):
     Promise<boolean>{
-        const VALID = AJV.validate("src/categories/schema.json#/insertCategory", data);
+        const VALID = AJV.validate("../../schemas/categories.json#/insertCategory", data);
         if (VALID) {
             const CATEGORY = await DYNAMO.write(this.CATEGORIES_TABLE, data);
             return CATEGORY;

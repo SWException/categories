@@ -2,12 +2,11 @@ import { APIGatewayProxyHandler } from 'aws-lambda';
 import Category from 'src/types/Category';
 import User from 'src/types/User';
 import API_RESPONSES from "src/utils/apiResponses"
-import { getTokenFromEvent, getBodyDataFromEvent } from "src/utils/checkJWT";
 
-export const HANDLER: APIGatewayProxyHandler = async (event) => {
+ export const HANDLER: APIGatewayProxyHandler = async (event) => {
     //console.log("event", event);
 
-    const TOKEN = getTokenFromEvent(event);
+    const TOKEN = event.headers?.Authorization;
     if (TOKEN == null) {
         return API_RESPONSES._400(null, "error", "manca TOKEN");
     }
@@ -19,7 +18,7 @@ export const HANDLER: APIGatewayProxyHandler = async (event) => {
         }
     }
 
-    const DATA = getBodyDataFromEvent(event);
+    const DATA = JSON.parse(event?.body);
     const RES = await Category.updateCategory(DATA['id'], DATA);
 
     console.log(JSON.stringify(RES));
