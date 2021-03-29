@@ -21,7 +21,7 @@ get:
             {
               status: "success",
               data:
-                  { id: "1", name: "games" },
+                  { id: "1", categoryName: "games" },
             }
     400:
       description: "categoria non trovata"
@@ -94,7 +94,7 @@ patch:
       application/json:
         schema:
           $ref: "../schemas/categories.json#/editCategory"
-        example: { id: "4", name: "lampadine" }
+        example: { id: "4", categoryName: "lampadine" }
   responses:
     200:
       description: "Categoria Aggiornata"

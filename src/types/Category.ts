@@ -10,13 +10,13 @@ export default class Category {
 
     // CAMPI DATI
     private readonly id: string;
-    private readonly name: string;
+    private readonly categoryName: string;
 
     // INTERFACCIA PUBBLICA
     public getJson (): JSON {
         const JSON_TMP = {
             id: this.id,
-            name: this.name,
+            categoryName: this.categoryName,
         };
         return JSON.parse(JSON.stringify(JSON_TMP));
     }
@@ -28,7 +28,7 @@ export default class Category {
             return null;
         }
         console.log("Category " + id + ": " + JSON.stringify(CATEGORY_JSON));
-        return new Category(CATEGORY_JSON['id'], CATEGORY_JSON['name']);
+        return new Category(CATEGORY_JSON['id'], CATEGORY_JSON['categoryName']);
     }
 
     public static async createNewCategory (data: JSON):
@@ -61,7 +61,7 @@ export default class Category {
     // METODI PRIVATI
     private constructor (id: string, name: string) {
         this.id = id;
-        this.name = name;
+        this.categoryName = name;
     }
 
     private static async getCategoryFromDB (id: string): Promise<JSON> {
