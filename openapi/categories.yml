@@ -1,12 +1,12 @@
 get:
-  summary: Richiesta lista categorie
-  description: Ritorna l'elenco di tutte le categorie presenti
+  summary: Get categories
+  description: Return the list containing all categories
   tags:
     - categories
   operationId: getCategories
   responses:
     200:
-      description: "elenco di tutte le categorie"
+      description: "categories list"
       content:
         application/json:
           schema:
@@ -25,8 +25,8 @@ get:
             }
 
 post:
-  summary: Inserisci nuova categoria
-  description: Crea una nuova categoria definendo automaticamente l'ID, viene richiesto il nome
+  summary: Insert a new category
+  description: Create a new category passing the name
   tags:
     - categories
   operationId: createCategory
@@ -46,14 +46,14 @@ post:
         example: { name: "sciarpe" }
   responses:
     200:
-      description: "Categoria Inserita"
+      description: "Category created"
       content:
         application/json:
           schema:
             $ref: "../schemas/response.json#/response"
           example: { status: "success", message: "categoria inserita" }
     400:
-      description: "categoria non inserita"
+      description: "request error"
       content:
         application/json:
           schema:

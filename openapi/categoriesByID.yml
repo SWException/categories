@@ -1,6 +1,6 @@
 get:
-  summary: ritorna la categoria con ID
-  description: Ritorna la categoria richiesta con ID passato via path param
+  summary: Get category
+  description: Return the category name associated with the passed ID
   tags:
     - categories
   parameters:
@@ -24,7 +24,7 @@ get:
                   { id: "1", name: "games" },
             }
     400:
-      description: "categoria non trovata"
+      description: "category didn't found"
       content:
         application/json:
           schema:
@@ -32,8 +32,8 @@ get:
           example: { status: "error", message: "categoria non trovata"}
 
 delete:
-  summary: Rimuove la categoria identificata dall'ID passato
-  description: Rimuove la categoria identificata dall'ID passato
+  summary: Delete category
+  description: Remove the category identified by the passed ID
   tags:
     - categories
   operationId: removeCategory
@@ -56,14 +56,14 @@ delete:
         
   responses:
     200:
-      description: "Categoria Rimossa"
+      description: "Category removed"
       content:
         application/json:
           schema:
             $ref: "../schemas/response.json#/response"
           example: { status: "success", message: "categoria rimossa" }
     400:
-      description: "categoria non rimossa"
+      description: "request error"
       content:
         application/json:
           schema:
@@ -71,8 +71,8 @@ delete:
           example: { status: "error", message: "categoria non rimossa"}
 
 patch:
-  summary: Aggiorna il nome della categoria
-  description: Aggiorna il nome della categoria associata all'ID passato
+  summary: Update category
+  description: Update the category name associated with the passed ID
   tags:
     - categories
   operationId: updateCategory
@@ -97,14 +97,14 @@ patch:
         example: { id: "4", name: "lampadine" }
   responses:
     200:
-      description: "Categoria Aggiornata"
+      description: "Category updated"
       content:
         application/json:
           schema:
             $ref: "../schemas/response.json#/response"
           example: { status: "success", message: "categoria aggiornata" }
     400:
-      description: "categoria non aggiornata"
+      description: "request error"
       content:
         application/json:
           schema:
