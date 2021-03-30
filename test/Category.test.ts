@@ -32,7 +32,7 @@ test('Bad request createNewCategory', async () => {
 
 test('createNewCategory', async () => {
     const INPUT = {
-        name: "sciarpe"
+        categoryName: "sciarpe"
     }
     const RES = await Category.createNewCategory(JSON.parse(JSON.stringify(INPUT)));
     expect(RES).toBe(true);
@@ -52,7 +52,7 @@ test('Null request updateCategory', async () => {
 });
 
 test('updateCategory', async () => {
-    const INPUT = { id: "4", name: "lampadine" }
+    const INPUT = { id: "4", categoryName: "lampadine" }
     const RES = await Category.updateCategory("1", JSON.parse(JSON.stringify(INPUT)));
     expect(RES).toBe(true);
 });
