@@ -31,45 +31,6 @@ get:
             $ref: "../schemas/response.json#/response"
           example: { status: "error", message: "categoria non trovata"}
 
-delete:
-  summary: Delete category
-  description: Remove the category identified by the passed ID
-  tags:
-    - categories
-  operationId: removeCategory
-  parameters:
-    - in: header
-      name: Authorization
-      description: token JWT
-      schema:
-        type: string
-      required: true
-    - in: path
-      name: id
-      schema:
-        type: string
-      required: true
-    - in: query
-      name: force
-      schema:
-        type: boolean
-        
-  responses:
-    200:
-      description: "Category removed"
-      content:
-        application/json:
-          schema:
-            $ref: "../schemas/response.json#/response"
-          example: { status: "success", message: "categoria rimossa" }
-    400:
-      description: "request error"
-      content:
-        application/json:
-          schema:
-            $ref: "../schemas/response.json#/response"
-          example: { status: "error", message: "categoria non rimossa"}
-
 patch:
   summary: Update category
   description: Update the category name associated with the passed ID
@@ -111,3 +72,41 @@ patch:
             $ref: "../schemas/response.json#/response"
           example: { status: "error", message: "categoria non aggiornata"}
 
+delete:
+  summary: Delete category
+  description: Remove the category identified by the passed ID
+  tags:
+    - categories
+  operationId: removeCategory
+  parameters:
+    - in: header
+      name: Authorization
+      description: token JWT
+      schema:
+        type: string
+      required: true
+    - in: path
+      name: id
+      schema:
+        type: string
+      required: true
+    - in: query
+      name: force
+      schema:
+        type: boolean
+        
+  responses:
+    200:
+      description: "Category removed"
+      content:
+        application/json:
+          schema:
+            $ref: "../schemas/response.json#/response"
+          example: { status: "success", message: "categoria rimossa" }
+    400:
+      description: "request error"
+      content:
+        application/json:
+          schema:
+            $ref: "../schemas/response.json#/response"
+          example: { status: "error", message: "categoria non rimossa"}
