@@ -1,7 +1,7 @@
-import Category from "../src/types/Category"
+import Category from "../src/core/Category"
 import { matchersWithOptions } from 'jest-json-schema';
 import { JSONSchema7 } from "json-schema";
-import { SCHEMAS, setFormats } from '../src/utils/configAjv';
+import { SCHEMAS, setFormats } from '../src/core/utils/configAjv';
 
 expect.extend(matchersWithOptions(SCHEMAS, (ajv) => setFormats(ajv)));
 
