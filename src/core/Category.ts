@@ -1,4 +1,4 @@
-import { DYNAMO } from "src/repository/Dynamo";
+import { DYNAMO } from "src/repository/dynamo";
 import { buildAjv } from 'src/core/utils/configAjv';
 import Ajv from "ajv"
 import { DocumentClient } from "aws-sdk/clients/dynamodb";
