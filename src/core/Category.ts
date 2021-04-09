@@ -13,6 +13,14 @@ export default class Category {
     private readonly categoryName: string;
 
     // INTERFACCIA PUBBLICA
+    public getId(): string {
+        return this.id;
+    }
+    
+    public getName(): string {
+        return this.categoryName;
+    }
+
     public getJson (): JSON {
         const JSON_TMP = {
             id: this.id,
@@ -57,13 +65,13 @@ export default class Category {
         const CATEGORY = await DYNAMO.getScan(this.CATEGORIES_TABLE);
         return CATEGORY;
     }
-
-    // METODI PRIVATI
-    private constructor (id: string, name: string) {
+    
+    constructor (id: string, name: string) {
         this.id = id;
         this.categoryName = name;
     }
 
+    // METODI PRIVATI
     private static async getCategoryFromDB (id: string): Promise<JSON> {
         const CATEGORY: AWS.DynamoDB.DocumentClient.AttributeMap =
             await DYNAMO.get(this.CATEGORIES_TABLE, id).catch(
