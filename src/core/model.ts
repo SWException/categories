@@ -1,5 +1,5 @@
 import { Persistence } from "../repository/persistence"
-import { Dynamo } from "../repository/dynamo"
+import { Dynamo } from "src/repository/dynamo"
 import { DbMock } from "../repository/dbMock";
 import { v4 as uuidv4 } from 'uuid';
 import { Users } from "src/repository/users";

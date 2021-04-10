@@ -6,7 +6,7 @@ export class Dynamo implements Persistence {
     private static readonly TABLE_CATEGORIES = "categories";
     private DOCUMENT_CLIENT = new AWS.DynamoDB.DocumentClient({ region: "eu-central-1" });
     
-    public async getAll(): Promise<Category[]> {
+    public async getAll (): Promise<Category[]> {
         const PARAMS = {
             TableName: Dynamo.TABLE_CATEGORIES
         };
@@ -18,7 +18,7 @@ export class Dynamo implements Persistence {
         return DATA ? DATA.Items as Category[] : null;
     }
 
-    public async getItem(id: string): Promise<Category> {
+    public async getItem (id: string): Promise<Category> {
         const PARAMS = {
             Key: {
                 id: id
@@ -31,7 +31,7 @@ export class Dynamo implements Persistence {
         return DATA.Item? new Category(DATA.Item.id, DATA.Item.categoryName) : null;
     }
 
-    public async addItem(item: Category): Promise<boolean> {
+    public async addItem (item: Category): Promise<boolean> {
         const PARAMS = {
             TableName: Dynamo.TABLE_CATEGORIES,
             Key: {
@@ -44,7 +44,7 @@ export class Dynamo implements Persistence {
         return (DATA) ? true : false;
     }
 
-    public async editItem(item: Category): Promise<boolean> {
+    public async editItem (item: Category): Promise<boolean> {
         const VALUES = {};
         let expression = "SET ";
         let first = true;
@@ -77,7 +77,7 @@ export class Dynamo implements Persistence {
         return DATA;
     }
 
-    public async deleteItem(id: string): Promise<boolean> {
+    public async deleteItem (id: string): Promise<boolean> {
         const PARAMS = {
             Key: {
                 id: id

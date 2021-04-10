@@ -40,7 +40,7 @@ test('error create category', async () => {
 });
 
 test('error create category no token passed', async () => {
-    function test(){
+    function test (){
         return MODEL.createCategory("descrizione", null);
     }
     await expect(test).rejects.toThrow(Error);
@@ -59,7 +59,7 @@ test('error update category', async () => {
 });
 
 test('error update category no token', async () => {
-    function test(){
+    function test (){
         return MODEL.updateCategory(null, "descrizione", "category");
     }
     await expect(test).rejects.toThrow(Error);
@@ -76,7 +76,7 @@ test('error delete category', async () => {
 });
 
 test('error delete category no token', async () => {
-    function test(){
+    function test (){
         return MODEL.deleteCategory("1", null);
     }
     await expect(test).rejects.toThrow(Error);
