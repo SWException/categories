@@ -1,4 +1,3 @@
-  
 import { APIGatewayProxyHandler } from 'aws-lambda';
 import response from "src/handlers/apiResponses";
 import Model from "../core/model"
