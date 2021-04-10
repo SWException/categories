@@ -1,31 +1,25 @@
 import { APIGatewayProxyHandler } from 'aws-lambda';
-import Category from 'src/core/Category';
-import fetch from 'node-fetch';
-import API_RESPONSES from "src/core/utils/apiResponses"
+import response from "src/handlers/apiResponses";
+import Model from "../core/model"
 
 export const HANDLER: APIGatewayProxyHandler = async (event) => {
-    
-    const TOKEN= event.headers?.Authorization;
+    const TOKEN: string = event.headers?.Authorization;
     if (TOKEN == null) {
-        return API_RESPONSES._400(null, "error", "manca TOKEN");
+        return response(400, "missing token");
     }
-    return await fetch(`https://95kq9eggu9.execute-api.eu-central-1.amazonaws.com/dev/users/check/${TOKEN}`)
-        .then(response => response.json())
-        .then( data => {
-            if (data.status!="success")
-                throw new Error(data.message);
-            if (data.username!="vendor")
-                throw new Error("Only a vendor can remove a category");  
-            const DATA = JSON.parse(event?.body);
-            const RES: Promise<boolean> = Category.createNewCategory(DATA);
-            console.log(JSON.stringify(RES));
-            if (RES)
-                return API_RESPONSES._200(null, null, "category added");
-            else
-                return API_RESPONSES._400(null, null, "error while inserting the new category");
-                                  
+    console.log(event);
+    console.log(event.body);
+    
+    
+    const BODY = JSON.parse(event.body);
+    if (BODY == null || BODY["categoryName"] == null ) {
+        return response(400, "missing body");
+    }
+
+    const MODEL: Model = Model.createModel();
+    return await MODEL.createCategory(BODY["categoryName"], TOKEN)
+        .then((RESULT: boolean) => {
+            return RESULT ? response(200, "category inserted") : response(400, "request error");
         })
-        .catch((error) => {
-            return API_RESPONSES._400(null,"error", error.message);
-        });
+        .catch((err: Error) => response(400, err.message));
 }

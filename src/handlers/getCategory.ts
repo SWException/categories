@@ -1,18 +1,13 @@
+  
 import { APIGatewayProxyHandler } from 'aws-lambda';
-import Category from 'src/core/Category';
-import API_RESPONSES from "src/core/utils/apiResponses"
+import response from "src/handlers/apiResponses";
+import Model from "../core/model"
 
 export const HANDLER: APIGatewayProxyHandler = async (event) => {
-    const CATEGORY_ID = event.pathParameters?.id;
-
-    const CATEGORY: Category = await Category.buildCategory(CATEGORY_ID);
-
-    console.log(JSON.stringify(CATEGORY));
-
-    if (CATEGORY) {
-        return API_RESPONSES._200(CATEGORY.getJson());
-    }
-    else {
-        return API_RESPONSES._400(null, "error", "categoria non presente");
-    }
+    const CATEGORY_ID: string = event.pathParameters?.id;
+    if(CATEGORY_ID == null)
+        return response(400, "request error");
+    const MODEL: Model = Model.createModel();
+    const CATEGORY: JSON = await MODEL.getCategory(CATEGORY_ID);
+    return CATEGORY ? response(200, "success", CATEGORY) : response(400, "error");
 }

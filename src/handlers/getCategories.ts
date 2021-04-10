@@ -1,7 +1,12 @@
 import { APIGatewayProxyHandler } from 'aws-lambda';
-import Category from 'src/core/Category';
-import API_RESPONSES from "src/core/utils/apiResponses"
+import response from 'src/handlers/apiResponses';
+import Model from "../core/model"
 
-export const HANDLER: APIGatewayProxyHandler = async (event) => {
-    return API_RESPONSES._200(await Category.buildAllCategories());
+export const HANDLER: APIGatewayProxyHandler = async () => {
+    const MODEL: Model = Model.createModel();
+    const RESULT: JSON = await MODEL.getCategories();
+    if(RESULT == null)
+        return response(400, "problem with persistence");
+    else
+        return response(200, "success", RESULT);
 }

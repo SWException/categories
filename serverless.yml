@@ -49,33 +49,40 @@ provider:
 
 functions:
   getCategory:
-    handler: "src/getCategory.HANDLER"
+    handler: "src/handlers/getCategory.HANDLER"
     events:
       - http:
           path: /categories/{id}
           method: GET
           cors: true
   getCategories:
-    handler: "src/getCategories.HANDLER"
+    handler: "src/handlers/getCategories.HANDLER"
     events:
       - http:
           path: /categories
           method: GET
           cors: true
   createCategory:
-    handler: "src/createCategory.HANDLER"
+    handler: "src/handlers/createCategory.HANDLER"
     events:
       - http:
           path: /categories
           method: POST
           cors: true  
   updateCategory:
-    handler: "src/updateCategory.HANDLER"
+    handler: "src/handlers/updateCategory.HANDLER"
     events:
       - http:
           path: /categories
           method: PATCH
-          cors: true      
+          cors: true
+  deleteCategory:
+    handler: "src/handlers/deleteCategory.HANDLER"
+    events:
+      - http:
+          path: /categories
+          method: DELETE
+          cors: true   
 
 resources:
   Resources:    

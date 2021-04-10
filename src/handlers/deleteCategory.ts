@@ -6,13 +6,13 @@ export const HANDLER: APIGatewayProxyHandler = async (event) => {
     const TOKEN: string = event.headers?.Authorization;
     const CATEGORY_ID: string = event.pathParameters?.id;
     if (TOKEN == null || CATEGORY_ID == null) {
-        return response(400, "missing token");
+        return response(400, "request error");
     }
-    const BODY = event.body;
+
     const MODEL: Model = Model.createModel();
-    return await MODEL.updateCategory(TOKEN, CATEGORY_ID, BODY["categoryName"])
+    return await MODEL.deleteCategory(CATEGORY_ID, TOKEN)
         .then((RESULT: boolean) => {
-            return RESULT ? response(200, "update successful") : response(400, "update failure");
+            return RESULT ? response(200, "category deleted") : response(400, "request error");
         })
         .catch((err: Error) => response(400, err.message));
 }
