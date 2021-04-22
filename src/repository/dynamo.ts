@@ -28,7 +28,7 @@ export class Dynamo implements Persistence {
         };
 
         const DATA = await this.DOCUMENT_CLIENT.get(PARAMS).promise();
-        return DATA.Item? new Category(DATA.Item.id, DATA.Item.categoryName) : null;
+        return DATA.Item? new Category(DATA.Item.id, DATA.Item.category) : null;
     }
 
     public async addItem (item: Category): Promise<boolean> {
