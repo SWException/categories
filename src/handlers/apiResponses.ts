@@ -1,4 +1,3 @@
-  
 import { APIGatewayProxyResult } from "aws-lambda";
 
 export default function response (statusCode: number, 
