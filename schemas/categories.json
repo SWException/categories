@@ -4,9 +4,9 @@
         "type": "object",
         "properties": {
             "id": { "type": "string"},
-            "categoryName": { "type": "string" }
+            "name": { "type": "string" }
         },
-        "required": ["categoryName"]
+        "required": ["name"]
     },
     "categories": {
         "type": "array",
@@ -17,7 +17,7 @@
         "allOf" : [
             { "$ref": "#/category" },
             {
-                "required": ["categoryName"]
+                "required": ["name"]
             }
         ]
     },
@@ -25,7 +25,7 @@
         "allOf" : [
             { "$ref": "#/category" },
             {
-                "required": ["id", "categoryName"]
+                "required": ["id", "name"]
             }
         ]
     },
