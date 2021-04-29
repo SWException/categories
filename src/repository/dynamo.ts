@@ -12,8 +12,8 @@ export class Dynamo implements Persistence {
         };
     
         const DATA = await this.DOCUMENT_CLIENT
-            .scan(PARAMS).promise()
-            .catch((err) => console.log(err.message));
+            .scan(PARAMS).promise();
+            
         console.log("Data from DB: " + JSON.stringify(DATA));
         return DATA ? DATA.Items as Category[] : null;
     }
@@ -34,13 +34,12 @@ export class Dynamo implements Persistence {
     public async addItem (item: Category): Promise<boolean> {
         const PARAMS = {
             TableName: Dynamo.TABLE_CATEGORIES,
-            Key: {
-                id: item.getId()
-            },
-            Item: item
+            Item: {
+                id: item.getId(),
+                name: item.getName()
+            }
         };
-        const DATA =  this.DOCUMENT_CLIENT.put(PARAMS).promise().catch(
-            () => {return false; });
+        const DATA = await this.DOCUMENT_CLIENT.put(PARAMS).promise();
         return (DATA) ? true : false;
     }
 
@@ -72,9 +71,8 @@ export class Dynamo implements Persistence {
             ExpressionAttributeValues: VALUES
         }
         console.log(PARAMS);
-        const DATA = await this.DOCUMENT_CLIENT.update(PARAMS).promise().catch(
-            (err) => { return err; });
-        return DATA;
+        const DATA = await this.DOCUMENT_CLIENT.update(PARAMS).promise();
+        return DATA? true: false;
     }
 
     public async deleteItem (id: string): Promise<boolean> {
@@ -86,9 +84,7 @@ export class Dynamo implements Persistence {
             IndexName: "id-index"
         };
 
-        await this.DOCUMENT_CLIENT.delete(PARAMS).promise().catch(
-            (err) => { return err; }
-        );
+        await this.DOCUMENT_CLIENT.delete(PARAMS).promise();
         return true;     
     }
 }

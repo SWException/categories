@@ -73,14 +73,14 @@ functions:
     handler: "src/handlers/updateCategory.HANDLER"
     events:
       - http:
-          path: /categories
+          path: /categories/{id}
           method: PATCH
           cors: true
   deleteCategory:
     handler: "src/handlers/deleteCategory.HANDLER"
     events:
       - http:
-          path: /categories
+          path: /categories/{id}
           method: DELETE
           cors: true   
 

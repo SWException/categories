@@ -12,12 +12,12 @@ export const HANDLER: APIGatewayProxyHandler = async (event) => {
     
     
     const BODY = JSON.parse(event.body);
-    if (BODY == null || BODY["categoryName"] == null ) {
+    if (BODY == null || BODY["name"] == null ) {
         return response(400, "missing body");
     }
 
     const MODEL: Model = Model.createModel();
-    return await MODEL.createCategory(BODY["categoryName"], TOKEN)
+    return await MODEL.createCategory(BODY["name"], TOKEN)
         .then((result: boolean) =>
             result ? response(200, "category inserted") : response(400, "request error"))
         .catch((err: Error) => response(400, err.message));

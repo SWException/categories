@@ -31,7 +31,11 @@ export default class Model {
         }
         let result = false;
         if(name && name.length > 0) {
+            console.log("Vado ad aggiungere");
+            
             const CATEGORY = new Category(uuidv4(), name);
+            console.log("CATEGORY", CATEGORY);
+            
             result = await this.DATABASE.addItem(CATEGORY);
         }
         return result;
