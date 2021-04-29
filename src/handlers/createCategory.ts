@@ -18,8 +18,7 @@ export const HANDLER: APIGatewayProxyHandler = async (event) => {
 
     const MODEL: Model = Model.createModel();
     return await MODEL.createCategory(BODY["categoryName"], TOKEN)
-        .then((RESULT: boolean) => {
-            return RESULT ? response(200, "category inserted") : response(400, "request error");
-        })
+        .then((result: boolean) =>
+            result ? response(200, "category inserted") : response(400, "request error"))
         .catch((err: Error) => response(400, err.message));
 }

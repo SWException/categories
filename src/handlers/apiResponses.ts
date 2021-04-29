@@ -2,7 +2,7 @@ import { APIGatewayProxyResult } from "aws-lambda";
 
 export default function response (statusCode: number, 
     message?: string,
-    data?: JSON): APIGatewayProxyResult {
+    data?: { [key: string]: any }): APIGatewayProxyResult {
     const BODY = {
         status: (statusCode >= 400? "error" : "success")
     };

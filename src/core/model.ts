@@ -37,17 +37,12 @@ export default class Model {
         return result;
     }
 
-    public async getCategories (): Promise<JSON> {
-        const CATEGORIES: Array<Category> = await this.DATABASE.getAll();
-        if(CATEGORIES == null)
-            return null;
-        
-        return JSON.parse(JSON.stringify(CATEGORIES));
+    public async getCategories (): Promise<Array<Category>> {
+        return await this.DATABASE.getAll();
     }
 
-    public async getCategory (id: string): Promise<JSON> {
-        const CATEGORY: Category = await this.DATABASE.getItem(id);
-        return CATEGORY ? JSON.parse(JSON.stringify(CATEGORY)) : null;
+    public async getCategory (id: string): Promise<Category> {
+        return await this.DATABASE.getItem(id);
     }
 
     public async deleteCategory (id: string, token: string): Promise<boolean> {

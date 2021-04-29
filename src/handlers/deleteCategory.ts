@@ -11,8 +11,7 @@ export const HANDLER: APIGatewayProxyHandler = async (event) => {
 
     const MODEL: Model = Model.createModel();
     return await MODEL.deleteCategory(CATEGORY_ID, TOKEN)
-        .then((RESULT: boolean) => {
-            return RESULT ? response(200, "category deleted") : response(400, "request error");
-        })
+        .then((result: boolean) =>
+            result ? response(200, "category deleted") : response(400, "request error"))
         .catch((err: Error) => response(400, err.message));
 }

@@ -7,6 +7,8 @@ export const HANDLER: APIGatewayProxyHandler = async (event) => {
     if(CATEGORY_ID == null)
         return response(400, "request error");
     const MODEL: Model = Model.createModel();
-    const CATEGORY: JSON = await MODEL.getCategory(CATEGORY_ID);
-    return CATEGORY ? response(200, "success", CATEGORY) : response(400, "error");
+    return await MODEL.getCategory(CATEGORY_ID)
+        .then((category: any) => 
+            category ? response(200, "success", category) : response(400, "error"))
+        .catch((err: Error) => response(400, err.message));
 }

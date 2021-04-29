@@ -2,7 +2,7 @@ export default class Category {
 
     // CAMPI DATI
     private readonly id: string;
-    private readonly name: string;
+    private readonly categoryName: string;
 
     // INTERFACCIA PUBBLICA
     public getId (): string {
@@ -10,11 +10,11 @@ export default class Category {
     }
 
     public getName (): string {
-        return this.name;
+        return this.categoryName;
     }
 
-    constructor (id: string, name: string) {
+    constructor (id: string, categoryName: string) {
         this.id = id;
-        this.name = name;
+        this.categoryName = categoryName;
     }
 }
