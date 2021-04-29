@@ -66,7 +66,7 @@ export default class Model {
             throw new Error("invalid token");
         }
         if(name == null ) {
-            return false;
+            throw new Error("The name can not be null");
         }
         return this.DATABASE.editItem(new Category(id, name));
     }

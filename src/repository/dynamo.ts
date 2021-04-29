@@ -44,31 +44,18 @@ export class Dynamo implements Persistence {
     }
 
     public async editItem (item: Category): Promise<boolean> {
-        const VALUES = {};
-        let expression = "SET ";
-        let first = true;
-
-        Object.keys(item).forEach(function (key) {
-            if (key != "id") {
-                const VALUE = item[key];
-                if (!first) {
-                    expression += ", "
-                } 
-                else {
-                    first = false;
-                }
-                expression += key + " = :" + key;
-                VALUES[":" + key] = VALUE;
-            }
-        });
-
         const PARAMS = {
             TableName: Dynamo.TABLE_CATEGORIES,
             Key: {
                 id: item.getId()
             },
-            UpdateExpression: expression,
-            ExpressionAttributeValues: VALUES
+            UpdateExpression: "SET #name = :name",
+            ExpressionAttributeValues: {
+                ":name": item.getName()
+            },
+            ExpressionAttributeNames: {
+                "#name": "name"
+            }
         }
         console.log(PARAMS);
         const DATA = await this.DOCUMENT_CLIENT.update(PARAMS).promise();

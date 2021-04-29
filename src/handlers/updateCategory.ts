@@ -8,10 +8,12 @@ export const HANDLER: APIGatewayProxyHandler = async (event) => {
     if (TOKEN == null || CATEGORY_ID == null) {
         return response(400, "missing token");
     }
-    const BODY = event.body;
+    const BODY = JSON.parse(event.body);
+    console.log(BODY);
+    
     const MODEL: Model = Model.createModel();
     return await MODEL.updateCategory(TOKEN, CATEGORY_ID, BODY["name"])
         .then((result: boolean) => 
-            result ? response(200, "success") : response(400, "error"))
+            result ? response(200, "success") : response(400, "error updating category"))
         .catch((err: Error) => response(400, err.message));
 }
