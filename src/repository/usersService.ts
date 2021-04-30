@@ -9,9 +9,5 @@ export class UsersService implements Users {
             .then(async responseUser => {
                 return responseUser.status == 200;
             })
-            .catch(error => {
-                return error.message;
-            })
     }
-
 }

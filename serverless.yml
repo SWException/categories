@@ -38,6 +38,7 @@ provider:
     DOMAIN_SUFFIX: eml-be
     CALLBACK_URL: http://localhost:3000
     REGION: ${self:provider.region}
+    SERVICES: ${env:SERVICES}
 
   iam:
     role:

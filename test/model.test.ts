@@ -52,10 +52,8 @@ test('update category', async () => {
 });
 
 test('error update category', async () => {
-    let res = await MODEL.updateCategory("token", "2", null);
-    expect(res).toBe(false);
-    res = await MODEL.updateCategory("token", null, null);
-    expect(res).toBe(false);
+    await expect(MODEL.updateCategory("token", "2", null)).rejects.toThrow(Error);
+    await expect(MODEL.updateCategory("token", null, "name")).rejects.toThrow(Error);
 });
 
 test('error update category no token', async () => {

@@ -68,6 +68,9 @@ export default class Model {
         if(name == null ) {
             throw new Error("The name can not be null");
         }
+        if(id == null ) {
+            throw new Error("The id can not be null");
+        }
         return this.DATABASE.editItem(new Category(id, name));
     }
 }
