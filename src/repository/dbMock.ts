@@ -7,7 +7,7 @@ export class DbMock implements Persistence {
     private static readonly CATEGORY2 = new Category("2", "food & beverage");
     private static readonly CATEGORY3 = new Category("3", "gardening");
 
-    public async getAll (): Promise<Array<Category>> {
+    public async getAll (_search?: string): Promise<Array<Category>> {
         return [DbMock.CATEGORY1, DbMock.CATEGORY2, DbMock.CATEGORY3];
     }
     public async getItem (id: string): Promise<Category> {

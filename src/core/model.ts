@@ -41,8 +41,8 @@ export default class Model {
         return result;
     }
 
-    public async getCategories (): Promise<Array<Category>> {
-        return await this.DATABASE.getAll();
+    public async getCategories (search?: string): Promise<Array<Category>> {
+        return await this.DATABASE.getAll(search);
     }
 
     public async getCategory (id: string): Promise<Category> {
