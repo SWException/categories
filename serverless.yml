@@ -37,8 +37,8 @@ provider:
     AWS_NODEJS_CONNECTION_REUSE_ENABLED: "1"
     DOMAIN_SUFFIX: eml-be
     CALLBACK_URL: http://localhost:3000
-    AWS_USER_POOL_ID: !Ref CognitoUserPool
     REGION: ${self:provider.region}
+    SERVICES: ${env:SERVICES}
 
   iam:
     role:
@@ -50,26 +50,40 @@ provider:
 
 functions:
   getCategory:
-    handler: "src/categories/getCategory.HANDLER"
+    handler: "src/handlers/getCategory.HANDLER"
     events:
       - http:
           path: /categories/{id}
           method: GET
           cors: true
+  getCategories:
+    handler: "src/handlers/getCategories.HANDLER"
+    events:
+      - http:
+          path: /categories
+          method: GET
+          cors: true
   createCategory:
-    handler: "src/categories/createCategory.HANDLER"
+    handler: "src/handlers/createCategory.HANDLER"
     events:
       - http:
           path: /categories
           method: POST
           cors: true  
   updateCategory:
-    handler: "src/categories/updateCategory.HANDLER"
+    handler: "src/handlers/updateCategory.HANDLER"
     events:
       - http:
-          path: /categories
+          path: /categories/{id}
           method: PATCH
-          cors: true      
+          cors: true
+  deleteCategory:
+    handler: "src/handlers/deleteCategory.HANDLER"
+    events:
+      - http:
+          path: /categories/{id}
+          method: DELETE
+          cors: true   
 
 resources:
   Resources:    

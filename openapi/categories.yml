@@ -1,0 +1,61 @@
+get:
+  summary: Get categories
+  description: Return the list containing all categories
+  tags:
+    - categories
+  operationId: getCategories
+  responses:
+    200:
+      description: "categories list"
+      content:
+        application/json:
+          schema:
+            $ref: "../schemas/categories.json#/responseCategories"
+          example:
+            {
+              status: "success",
+              data:
+                [
+                  { id: "1", name: "games" },
+                  { id: "2", name: "balls" },
+                  { id: "3", name: "cucina" },
+                  { id: "4", name: "casetta" },
+                  { id: "5", name: "oggettistica" },
+                ],
+            }
+
+post:
+  summary: Insert a new category
+  description: Create a new category passing the name
+  tags:
+    - categories
+  operationId: createCategory
+  parameters:
+    - in: header
+      name: Authorization
+      description: token JWT
+      schema:
+        type: string
+      required: true
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          $ref: "../schemas/categories.json#/insertCategory"
+        example: { name: "sciarpe" }
+  responses:
+    200:
+      description: "Category created"
+      content:
+        application/json:
+          schema:
+            $ref: "../schemas/response.json#/response"
+          example: { status: "success", message: "categoria inserita" }
+    400:
+      description: "request error"
+      content:
+        application/json:
+          schema:
+            $ref: "../schemas/response.json#/response"
+          example: { status: "error", message: "categoria non inserita"}
